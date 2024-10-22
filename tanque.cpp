@@ -205,32 +205,30 @@ void inicializar()
     // texturaTorreta = carregarTextura("pink-military.jpg");
     // texturaCano = carregarTextura("camouflage.jpg");
 }
-void teclado(unsigned char tecla, int x, int y)
-{
-    float velocidade = 0.5;
+void moverTanque(float direcao) {
+    float velocidade = 0.5 * direcao;
     float radiano = anguloTanque * M_PI / 180.0;
     float dx = velocidade * sin(radiano);
     float dz = velocidade * cos(radiano);
 
-    switch (tecla)
-    {
-    case 's':
-        posicaoTanqueX -= dx;
-        posicaoTanqueZ -= dz;
-        break;
-    case 'w':
-        posicaoTanqueX += dx;
-        posicaoTanqueZ += dz;
-        break;
-    case 'a':
+    posicaoTanqueX += dx;
+    posicaoTanqueZ += dz;
+}
+
+void teclado(unsigned char tecla, int x, int y) {
+    if (tecla == 's') { // mover para trás
+        moverTanque(-1.0);
+    } else if (tecla == 'w') { // mover para frente
+        moverTanque(1.0);
+    } else if (tecla == 'a') { // girar para esquerda
         anguloTanque += 5.0;
-        break;
-    case 'd':
+    } else if (tecla == 'd') { // girar para direita
         anguloTanque -= 5.0;
-        break;
     }
+    
     glutPostRedisplay();
 }
+
 
 int main(int argc, char **argv)
 {
